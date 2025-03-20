@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () { 
+/* document.addEventListener("DOMContentLoaded", function () { 
     setTimeout(function () {
         const datatablesSimple = document.getElementById("datatablesSimple");
         if (datatablesSimple) {
@@ -6,4 +6,4 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }, 10); // Delay to ensure DOM is fully loaded
 })
-
+ */
