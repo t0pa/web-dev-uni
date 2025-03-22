@@ -17,19 +17,34 @@
 
             app.route({
                 view : "dashboard",
-              
+
+               
+
                 onCreate: function() {  
 
-
-
-
-                    console.log("tu sam 2");
-
+                    console.log("tu sam u charts dashboard");
                                             // Set new default font family and font color to mimic Bootstrap's default styling
                             Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
                             Chart.defaults.global.defaultFontColor = '#292b2c';
+                            initializeDashboardCharts();
 
+                },
 
+              });
+              
+            // Route for the Profile view
+            app.route({
+                view: "profile",
+                onCreate: function() {
+                    console.log("Profile view loaded");
+                    initializeProfileForm(); // Initialize profile editing functionality
+                }
+            }); 
+                
+            app.run();
+       
+            function initializeDashboardCharts() {
+                
 
                             // Area Chart Example
                             var ctx = document.getElementById("myAreaChart");
@@ -138,21 +153,30 @@
                     
 
 
-                },
-
-
-                    
-
-
-              });
-              
-            
-                    
-    
-            app.run();
-       
+            }
         
-
+            function initializeProfileForm() {
+                document.getElementById("edit-profile-btn").addEventListener("click", function () {
+                    document.getElementById("profile-view").style.display = "none";
+                    document.getElementById("edit-profile-form").style.display = "block";
+                });
+            
+                document.getElementById("cancel-profile-btn").addEventListener("click", function () {
+                    document.getElementById("profile-view").style.display = "block";
+                    document.getElementById("edit-profile-form").style.display = "none";
+                });
+            
+                document.getElementById("save-profile-btn").addEventListener("click", function () {
+                    document.getElementById("profile-name").innerText = document.getElementById("edit-name").value;
+                    document.getElementById("profile-email").innerText = document.getElementById("edit-email").value;
+                    document.getElementById("profile-phone").innerText = document.getElementById("edit-phone").value;
+                    document.getElementById("profile-mobile").innerText = document.getElementById("edit-mobile").value;
+                    document.getElementById("profile-address").innerText = document.getElementById("edit-address").value;
+            
+                    document.getElementById("profile-view").style.display = "block";
+                    document.getElementById("edit-profile-form").style.display = "none";
+                });
+            }
 window.addEventListener('DOMContentLoaded', event => {
 
     // Toggle the side navigation
