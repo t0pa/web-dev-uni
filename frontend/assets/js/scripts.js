@@ -10,7 +10,7 @@
 
 
             var app = $.spapp({
-                defaultView: "#charts2",
+                defaultView: "#explore",
                 templateDir: "./views/"
     
             });
