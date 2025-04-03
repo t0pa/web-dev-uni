@@ -1,23 +1,22 @@
 <?php
 
-require_once __DIR__ . '/ComicsDao.php';
+require_once 'LibraryDao.php';
 
-// Create an instance of UserDao
-$comicsDao = new ComicsDao();
+try {
+    // Create instance of WishlistDao
+    $reviewsDao = new LibraryDao();
 
-$comicsDao -> insert([
-    'title' => 'The Walking Dead',
-    'author' => 'Charlie Adlard',
-    'genre' => 'Horror',
-    'total_chapters' => 193,
-    'cover_image' => 'https://upload.wikimedia.org/wikipedia/en/c/cf/WalkingDead1.jpg'
-]);
-echo "Comic inserted successfully\n";
+    // Set a test user ID (change this to an actual user ID from your database)
+    
+    // Fetch wishlist for the test user
+    $wishlist = $reviewsDao->getByStatus(2, 'reading');
 
+    // Display results
+    echo "Reviews sorted by rating (descending):\n";
+    print_r($wishlist);
 
-
-$comics=$comicsDao->getAll();
-echo "All Comics:\n";
-print_r($comics);
+} catch (Exception $e) {
+    echo "Error: " . $e->getMessage();
+}
 
 ?>
