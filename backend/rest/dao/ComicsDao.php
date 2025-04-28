@@ -22,6 +22,8 @@ class ComicsDao extends BaseDao {
     $stmt->execute();
     return $stmt->fetch();
    }
+
+ 
    
 }
 ?>

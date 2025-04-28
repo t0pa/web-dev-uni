@@ -9,13 +9,7 @@ class ReviewsDao extends BaseDao {
     }
 
     public function getReviewsSortedByRating($sortOrder) {
-        // Validate sort order to prevent SQL injection
-        $sortOrder = strtoupper($sortOrder); // Convert to uppercase
-        if (!in_array($sortOrder, ['ASC', 'DESC'])) {
-            throw new Exception("Invalid sort order. Use 'ASC' or 'DESC'.");
-        }
-
-        // Prepare query with dynamic sorting
+        // Assume $sortOrder is already validated
         $sql = "SELECT * FROM reviews ORDER BY rating $sortOrder";
         $stmt = $this->connection->prepare($sql);
         $stmt->execute();

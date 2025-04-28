@@ -1,7 +1,7 @@
 <?php
 
 require_once 'BaseService.php';
-require_once 'WishlistDao.php';
+require_once '../dao/WishlistDao.php';
 
 class WishlistService extends BaseService {
 

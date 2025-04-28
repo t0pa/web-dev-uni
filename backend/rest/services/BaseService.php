@@ -1,5 +1,6 @@
 <?php
-require_once 'BaseDao.php';
+//require_once '../dao/BaseDao.php';
+require_once __DIR__ . '/../dao/BaseDao.php';
 class BaseService {
    protected $dao;
    public function __construct(BaseDao $dao) {
