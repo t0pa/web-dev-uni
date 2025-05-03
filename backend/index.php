@@ -16,12 +16,32 @@ require 'vendor/autoload.php';
 //require_once __DIR__ . '/rest/services/LibraryService.php';
 require_once 'rest/services/LibraryService.php';
 require_once 'rest/services/ComicsService.php';
+require_once 'rest/services/UserService.php';
+require_once 'rest/services/WishlistService.php';
+require_once 'rest/services/ReviewsService.php';
+
+
 
 Flight::register('libraryService', 'LibraryService');
 
+Flight::register('reviewsService', 'ReviewsService');
+
+Flight::register('wishlistService', 'WishlistService');
+
+Flight::register('userService', 'UserService');
+
 Flight::register('comicsService', 'ComicsService');
 
+
+require_once __DIR__ . '/rest/routes/UserRoutes.php';
+
+require_once __DIR__ . '/rest/routes/ReviewsRoutes.php';
+
+
+require_once __DIR__ . '/rest/routes/WishlistRoutes.php';
+
 require_once __DIR__ . '/rest/routes/LibraryRoutes.php';
+
 
 require_once __DIR__ . '/rest/routes/ComicsRoutes.php';
 
