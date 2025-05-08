@@ -9,7 +9,7 @@ try {
     // Set a test user ID (change this to an actual user ID from your database)
     
     // Fetch wishlist for the test user
-    $wishlist = $reviewsDao->getByStatus(2, 'reading');
+    $wishlist = $reviewsDao->getByIdAndUser(5, 1);
 
     // Display results
     echo "Reviews sorted by rating (descending):\n";

@@ -1,7 +1,7 @@
 <?php
 
 require_once 'BaseService.php';
-require_once 'ComicsDao.php';
+require_once __DIR__ . '/../dao/ComicsDao.php';
 
 class ComicsService extends BaseService {
 
@@ -11,12 +11,23 @@ class ComicsService extends BaseService {
    }
 
    public function getByTitle($title) {
-       return $this->dao->getByTitle($title);
+       
+    return $this->dao->getByTitle($title);
+
    }
 
    public function getByAuthor($author) {
        return $this->dao->getByAuthor($author);
    }
+
+ 
+
+    
+
+
+
 }
+
+
 
 ?>
