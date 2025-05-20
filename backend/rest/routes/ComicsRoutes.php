@@ -12,6 +12,7 @@
  * )
  */
 Flight::route('GET /comics', function(){
+   Flight::auth_middleware()->authorizeRoles([Roles::ADMIN, Roles::USER]);
    Flight::json(Flight::comicsService()->getAll());
 });
 
@@ -34,6 +35,8 @@ Flight::route('GET /comics', function(){
  * )
  */
 Flight::route('GET /comics/@id', function($id){
+      Flight::auth_middleware()->authorizeRoles([Roles::ADMIN, Roles::USER]);
+
    Flight::json(Flight::comicsService()->getById($id));
 });
 
@@ -60,6 +63,8 @@ Flight::route('GET /comics/@id', function($id){
  * )
  */
 Flight::route('POST /comics', function(){
+      Flight::auth_middleware()->authorizeRoles([Roles::ADMIN]);
+
    $data = Flight::request()->data->getData();
    Flight::json(Flight::comicsService()->create($data));
 });
@@ -94,6 +99,8 @@ Flight::route('POST /comics', function(){
  * )
  */
 Flight::route('PUT /comics/@id', function($id){
+      Flight::auth_middleware()->authorizeRoles([Roles::ADMIN]);
+
    $data = Flight::request()->data->getData();
    Flight::json(Flight::comicsService()->update($id, $data));
 });
@@ -117,6 +124,8 @@ Flight::route('PUT /comics/@id', function($id){
  * )
  */
 Flight::route('DELETE /comics/@id', function($id){
+      Flight::auth_middleware()->authorizeRoles([Roles::ADMIN]);
+
    Flight::json(Flight::comicsService()->delete($id));
 });
 

@@ -12,6 +12,8 @@
  * )
  */
 Flight::route('GET /library', function(){
+   Flight::auth_middleware()->authorizeRoles([Roles::USER]);
+   
    Flight::json(Flight::libraryService()->getAll());
 });
 
@@ -34,6 +36,8 @@ Flight::route('GET /library', function(){
  * )
  */
 Flight::route('GET /library/@id', function($id){ 
+      Flight::auth_middleware()->authorizeRoles([Roles::USER]);
+
    Flight::json(Flight::libraryService()->getById($id));
 });
 
@@ -56,6 +60,8 @@ Flight::route('GET /library/@id', function($id){
  * )
  */
 Flight::route('POST /library/@id', function($id) {
+      Flight::auth_middleware()->authorizeRoles([Roles::USER]);
+
    $user_id = 1;
    $result = Flight::libraryService()->add_comic_to_library_by_id($id, $user_id);
    Flight::json($result);  
@@ -80,6 +86,8 @@ Flight::route('POST /library/@id', function($id) {
  * )
  */
 Flight::route('DELETE /library/@id', function($id) {
+      Flight::auth_middleware()->authorizeRoles([Roles::USER]);
+
    $user_id = 1;
    $result = Flight::libraryService()->remove_comic_from_library($id, $user_id);
 

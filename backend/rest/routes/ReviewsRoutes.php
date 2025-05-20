@@ -12,38 +12,41 @@
  * )
  */
 Flight::route('GET /reviews', function(){
+   Flight::auth_middleware()->authorizeRoles([Roles::ADMIN]);
    Flight::json(Flight::reviewsService()->getAll());
 });
 
 /**
  * @OA\Get(
- *     path="/reviews/{id}",
+ *     path="/reviews/comic/{comic_id}",
  *     tags={"reviews"},
- *     summary="Get a specific review by ID",
+ *     summary="Get all reviews for a specific comic",
  *     @OA\Parameter(
- *         name="id",
+ *         name="comic_id",
  *         in="path",
  *         required=true,
- *         description="Review ID",
- *         @OA\Schema(type="integer", example=3)
+ *         description="ID of the comic to get reviews for",
+ *         @OA\Schema(type="integer", example=5)
  *     ),
  *     @OA\Response(
  *         response=200,
- *         description="Review details"
+ *         description="List of reviews for the given comic"
  *     )
  * )
  */
-Flight::route('GET /reviews/@id', function($id){ 
-   Flight::json(Flight::reviewsService()->getById($id));
+Flight::route('GET /reviews/comic/@comic_id', function($comic_id){ 
+      Flight::auth_middleware()->authorizeRoles([Roles::USER]);
+
+    Flight::json(Flight::reviewsService()->get_reviews_for_comic($comic_id));
 });
 
 /**
  * @OA\Post(
- *     path="/reviews/{id}",
+ *     path="/reviews/comic/{comic_id}",
  *     tags={"reviews"},
  *     summary="Create a review for a comic",
  *     @OA\Parameter(
- *         name="id",
+ *         name="comic_id",
  *         in="path",
  *         required=true,
  *         description="Comic ID",
@@ -63,7 +66,9 @@ Flight::route('GET /reviews/@id', function($id){
  *     )
  * )
  */
-Flight::route('POST /reviews/@id', function($comic_id){
+Flight::route('POST /reviews/comic/@comic_id', function($comic_id){
+         Flight::auth_middleware()->authorizeRoles([Roles::USER]);
+
     $data = Flight::request()->data->getData();
     $user_id = 1; // Static user ID
     Flight::json(Flight::reviewsService()->create_review($comic_id, $user_id, $data));
@@ -71,11 +76,11 @@ Flight::route('POST /reviews/@id', function($comic_id){
 
 /**
  * @OA\Put(
- *     path="/reviews/{id}",
+ *     path="/reviews/comic/{comic__id}",
  *     tags={"reviews"},
  *     summary="Update a review for a comic",
  *     @OA\Parameter(
- *         name="id",
+ *         name="comic_id",
  *         in="path",
  *         required=true,
  *         description="Comic ID",
@@ -95,30 +100,45 @@ Flight::route('POST /reviews/@id', function($comic_id){
  *     )
  * )
  */
-Flight::route('PUT /reviews/@id', function($comic_id){
+Flight::route('PUT /reviews/comic/@comic_id', function($comic_id){
+         Flight::auth_middleware()->authorizeRoles([Roles::USER]);
+
     $user_id = 1;
     $data = Flight::request()->data->getData();
-    Flight::json(Flight::reviewsService()->update($comic_id, $data));
+    Flight::json(Flight::reviewsService()->update_review($comic_id, $data));
 });
 
 /**
  * @OA\Delete(
- *     path="/reviews/{id}",
+ *     path="/reviews/comic/{comic_id}",
  *     tags={"reviews"},
- *     summary="Delete a review by ID",
+ *     summary="Delete the authenticated user's review for a comic",
  *     @OA\Parameter(
- *         name="id",
+ *         name="comic_id",
  *         in="path",
  *         required=true,
- *         description="Review ID",
- *         @OA\Schema(type="integer", example=2)
+ *         description="Comic ID",
+ *         @OA\Schema(type="integer", example=5)
  *     ),
  *     @OA\Response(
  *         response=200,
  *         description="Review deleted successfully"
+ *     ),
+ *     @OA\Response(
+ *         response=403,
+ *         description="Unauthorized or not review owner"
  *     )
  * )
  */
-Flight::route('DELETE /reviews/@id', function($id){
-   Flight::json(Flight::reviewsService()->delete($id));
+Flight::route('DELETE /reviews/comic/@comic_id', function($comic_id) {
+         Flight::auth_middleware()->authorizeRoles([Roles::USER]);
+
+    $user_id = Flight::get('user')['id']; // Or however you get the authenticated user
+
+    try {
+        Flight::json(Flight::reviewsService()->delete_review_by_user_and_comic($comic_id, $user_id));
+    } catch (Exception $e) {
+        Flight::halt(403, $e->getMessage()); // Forbidden if not allowed
+    }
 });
+
