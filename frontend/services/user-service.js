@@ -4,7 +4,7 @@ var UserService = {
    if (token && token !== undefined) {
      window.location.replace("index.html");
    }
-   $("#login-form").validate({
+   $("#loginForm").validate({
      submitHandler: function (form) {
        var entity = Object.fromEntries(new FormData(form).entries());
        UserService.login(entity);

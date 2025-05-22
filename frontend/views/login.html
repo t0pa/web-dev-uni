@@ -11,12 +11,13 @@
                                     <div class="card-body">
                                         <form id="loginForm">
                                             <div class="form-floating mb-3">
-                                                <input class="form-control" id="inputEmail" type="email" placeholder="name@example.com" />
-                                                <label for="inputEmail">Email address</label>
+                                                  <label class="form-label">Email addresss</label>
+                                                  <input type="email" name="email" class="form-control" />
                                             </div>
                                             <div class="form-floating mb-3">
-                                                <input class="form-control" id="inputPassword" type="password" placeholder="Password" />
-                                                <label for="inputPassword">Password</label>
+                                                 <label class="form-label">Password</label>
+                                                  <input type="password" name="password" class="form-control" />
+
                                             </div>
                                             <div class="form-check mb-3">
                                                 <input class="form-check-input" id="inputRememberPassword" type="checkbox" value="" />
@@ -41,7 +42,7 @@
         </div>
      
 
-      <script>
+<!--       <script>
 document.getElementById('loginForm').addEventListener('submit', async function(event) {
   event.preventDefault();
 
@@ -76,9 +77,9 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
   }
 });
 </script>
-
+ -->
   
-   <script src="services/user-service.js"></script>
+  
    <script type="text/javascript">
      UserService.init();
    </script>
