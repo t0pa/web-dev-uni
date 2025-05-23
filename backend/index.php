@@ -1,16 +1,6 @@
 <?php
 
 
-// CORS HEADERS - must be set before anything else
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type, Authorization');
-
-// Handle preflight OPTIONS request
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(200);
-    exit();
-}
 
 require 'vendor/autoload.php';
 //require_once __DIR__ . '/rest/services/LibraryService.php';
@@ -19,9 +9,9 @@ require_once 'rest/services/ComicsService.php';
 require_once 'rest/services/UserService.php';
 require_once 'rest/services/WishlistService.php';
 require_once 'rest/services/ReviewsService.php';
-require 'rest/services/AuthService.php';
-require "middleware/AuthMiddleware.php";
-
+require_once 'rest/services/AuthService.php';
+require_once "middleware/AuthMiddleware.php";
+require_once  'data/Roles.php'; 
 
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
@@ -42,10 +32,7 @@ Flight::register('comicsService', 'ComicsService');
 
 Flight::register('auth_service', "AuthService");
 
-Flight::register('restaurantService', 'RestaurantService');
-
 Flight::register('auth_middleware', "AuthMiddleware");
-
 
 
 Flight::route('/*', function() {
@@ -64,7 +51,6 @@ Flight::route('/*', function() {
        }
    }
 });
-
 
 
 require_once __DIR__ .'/rest/routes/AuthRoutes.php';

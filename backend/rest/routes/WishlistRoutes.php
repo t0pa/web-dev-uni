@@ -4,6 +4,7 @@
  * @OA\Get(
  *     path="/wishlist",
  *     tags={"wishlist"},
+ *    security={{"ApiKey": {}}},
  *     summary="Get all wishlist items",
  *     @OA\Response(
  *         response=200,
@@ -21,6 +22,7 @@ Flight::route('GET /wishlist', function(){
  * @OA\Get(
  *     path="/wishlist/{id}",
  *     tags={"wishlist"},
+ *   security={{"ApiKey": {}}},
  *     summary="Get a wishlist entry by ID",
  *     @OA\Parameter(
  *         name="id",
@@ -45,6 +47,7 @@ Flight::route('GET /wishlist/@id', function($id){
  * @OA\Post(
  *     path="/wishlist/{id}",
  *     tags={"wishlist"},
+ *  security={{"ApiKey": {}}},
  *     summary="Add a comic to the wishlist (by comic ID)",
  *     @OA\Parameter(
  *         name="id",
@@ -71,6 +74,7 @@ Flight::route('POST /wishlist/@id', function($id) {
  * @OA\Delete(
  *     path="/wishlist/{id}",
  *     tags={"wishlist"},
+ *  security={{"ApiKey": {}}},
  *     summary="Remove a comic from the wishlist (by comic ID)",
  *     @OA\Parameter(
  *         name="id",

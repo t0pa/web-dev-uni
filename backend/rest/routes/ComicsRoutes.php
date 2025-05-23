@@ -4,6 +4,7 @@
  * @OA\Get(
  *      path="/comics",
  *      tags={"comics"},
+ *       security={{"ApiKey": {}}},
  *      summary="Get all comics",
  *      @OA\Response(
  *           response=200,
@@ -20,6 +21,7 @@ Flight::route('GET /comics', function(){
  * @OA\Get(
  *     path="/comics/{id}",
  *     tags={"comics"},
+ * security={{"ApiKey": {}}},
  *     summary="Get comic by ID",
  *     @OA\Parameter(
  *         name="id",
@@ -44,6 +46,7 @@ Flight::route('GET /comics/@id', function($id){
  * @OA\Post(
  *     path="/comics",
  *     tags={"comics"},
+ *    security={{"ApiKey": {}}},
  *     summary="Add a new comic",
  *     @OA\RequestBody(
  *         required=true,
@@ -73,6 +76,7 @@ Flight::route('POST /comics', function(){
  * @OA\Put(
  *     path="/comics/{id}",
  *     tags={"comics"},
+ *   security={{"ApiKey": {}}},
  *     summary="Update a comic fully or partially by ID",
  *     @OA\Parameter(
  *         name="id",
@@ -109,6 +113,7 @@ Flight::route('PUT /comics/@id', function($id){
  * @OA\Delete(
  *     path="/comics/{id}",
  *     tags={"comics"},
+ *  security={{"ApiKey": {}}},
  *     summary="Delete a comic by ID",
  *     @OA\Parameter(
  *         name="id",

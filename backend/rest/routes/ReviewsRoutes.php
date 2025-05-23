@@ -4,6 +4,7 @@
  * @OA\Get(
  *     path="/reviews",
  *     tags={"reviews"},
+ *    security={{"ApiKey": {}}},
  *     summary="Get all reviews",
  *     @OA\Response(
  *         response=200,
@@ -20,6 +21,7 @@ Flight::route('GET /reviews', function(){
  * @OA\Get(
  *     path="/reviews/comic/{comic_id}",
  *     tags={"reviews"},
+ *    security={{"ApiKey": {}}},
  *     summary="Get all reviews for a specific comic",
  *     @OA\Parameter(
  *         name="comic_id",
@@ -44,6 +46,7 @@ Flight::route('GET /reviews/comic/@comic_id', function($comic_id){
  * @OA\Post(
  *     path="/reviews/comic/{comic_id}",
  *     tags={"reviews"},
+ *   security={{"ApiKey": {}}},
  *     summary="Create a review for a comic",
  *     @OA\Parameter(
  *         name="comic_id",
@@ -78,6 +81,7 @@ Flight::route('POST /reviews/comic/@comic_id', function($comic_id){
  * @OA\Put(
  *     path="/reviews/comic/{comic__id}",
  *     tags={"reviews"},
+ *   security={{"ApiKey": {}}},
  *     summary="Update a review for a comic",
  *     @OA\Parameter(
  *         name="comic_id",
@@ -112,6 +116,7 @@ Flight::route('PUT /reviews/comic/@comic_id', function($comic_id){
  * @OA\Delete(
  *     path="/reviews/comic/{comic_id}",
  *     tags={"reviews"},
+ *  security={{"ApiKey": {}}},
  *     summary="Delete the authenticated user's review for a comic",
  *     @OA\Parameter(
  *         name="comic_id",
