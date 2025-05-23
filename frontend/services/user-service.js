@@ -2,7 +2,7 @@ var UserService = {
  init: function () {
    var token = localStorage.getItem("user_token");
    if (token && token !== undefined) {
-     window.location.replace("../index.html");
+     window.location.replace("index.html");
    }
    $("#loginForm").validate({
      submitHandler: function (form) {
@@ -21,7 +21,7 @@ var UserService = {
      success: function (result) {
        console.log(result);
        localStorage.setItem("user_token", result.data.token);
-       window.location.replace("../index.html");
+       window.location.replace("index.html");
      },
      error: function (XMLHttpRequest, textStatus, errorThrown) {
        toastr.error(XMLHttpRequest?.responseText ?  XMLHttpRequest.responseText : 'Error');
@@ -32,7 +32,7 @@ var UserService = {
 
  logout: function () {
    localStorage.clear();
-   window.location.replace("views/login.html");
+   window.location.replace("login.html");
  },
    generateMenuItems: function(){
         const token = localStorage.getItem("user_token");
