@@ -117,7 +117,7 @@ var UserService = {
                                 '</a>' +
                                 '<a class="nav-link" href="#admin-settings">' + // Example admin specific sidebar link
                                 '    <div class="sb-nav-link-icon"><i class="fas fa-cog"></i></div>' +
-                                '    Admin Settings' +
+                                '    ADMIN Settings' +
                                 '</a>';
                 break;
             default:
