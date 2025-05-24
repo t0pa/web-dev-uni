@@ -16,6 +16,14 @@ class ReviewsDao extends BaseDao {
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+
+    public function get_user_review_for_comic($comic_id, $user_id) {
+    $stmt = $this->conn->prepare("SELECT * FROM reviews WHERE comic_id = :comic_id AND user_id = :user_id");
+    $stmt->execute(['comic_id' => $comic_id, 'user_id' => $user_id]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
 }
 
 ?>
