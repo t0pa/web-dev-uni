@@ -11300,3 +11300,18 @@ body{
   box-shadow: none!important;
 }
 
+.card-img-top {
+    height: 300px  !important    ;      /* Set fixed height */
+    object-fit: cover  !important    ;      /* Ensure image fills the area without distortion */
+    width: 100%  !important    ;            /* Ensure full width */
+}
+
+.card.h-100 {
+    height: 100%  !important    ;           /* Keep the card height uniform within its grid system */
+    display: flex  !important    ;
+    flex-direction: column  !important    ;
+}
+
+.card-body {
+    flex-grow: 1  !important    ;           /* Let the card body grow to fill space between image and footer */
+}

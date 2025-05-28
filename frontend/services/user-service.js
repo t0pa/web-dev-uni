@@ -4,12 +4,31 @@ var UserService = {
    if (token && token !== undefined) {
      window.location.replace("index.html");
    }
+   
+   var currentPage = window.location.pathname.split("/").pop();
+
+    if (currentPage === "login.html") {
+
    $("#loginForm").validate({
      submitHandler: function (form) {
        var entity = Object.fromEntries(new FormData(form).entries());
        UserService.login(entity);
      },
    });
+  }
+
+  if (currentPage === "register.html") {
+    $("#registerForm").validate({
+      submitHandler: function (form) {
+        var entity = Object.fromEntries(new FormData(form).entries());
+        UserService.register(entity);
+      },
+    });
+
+  }
+
+
+
  },
  login: function (entity) {
    $.ajax({
@@ -21,8 +40,8 @@ var UserService = {
      success: function (result) {
        console.log(result);
        localStorage.setItem("user_token", result.data.token);
-       window.location.replace("index.html");
-     },
+       window.location.replace("index.html"); 
+ },
      error: function (XMLHttpRequest, textStatus, errorThrown) {
        toastr.error(XMLHttpRequest?.responseText ?  XMLHttpRequest.responseText : 'Error');
      },
@@ -30,10 +49,32 @@ var UserService = {
  },
 
 
+ register: function (entity) {
+  $.ajax({
+    url: Constants.PROJECT_BASE_URL + "auth/register", // Make sure this matches your backend route
+    type: "POST",
+    data: JSON.stringify(entity),
+    contentType: "application/json",
+    dataType: "json",
+    success: function (result) {
+      console.log(result);
+      toastr.success("Registration successful! Redirecting to login...");
+      setTimeout(() => {
+        window.location.replace("login.html");
+      }, 1500); // Wait a bit to show the success toast
+    },
+    error: function (XMLHttpRequest, textStatus, errorThrown) {
+      toastr.error(XMLHttpRequest?.responseText ? XMLHttpRequest.responseText : 'Registration failed.');
+    },
+  });
+},
+
+
  logout: function () {
    localStorage.clear();
    window.location.replace("login.html");
  },
+   
    generateMenuItems: function(){
         const token = localStorage.getItem("user_token");
         if (!token) {
@@ -128,5 +169,5 @@ var UserService = {
         $("#tabs").html(navItems + '<li><button class="btn btn-primary" onclick="UserService.logout()">Logout</button></li>');
         $(".sb-sidenav-menu .nav").html(sidebarItems); // Populate the sidebar
     }
-
+    
 };
