@@ -8,23 +8,18 @@
                                 <div class="card shadow-lg border-0 rounded-lg mt-5">
                                     <div class="card-header"><h3 class="text-center font-weight-light my-4">Create Account</h3></div>
                                     <div class="card-body">
-                                        <form>
+                                        <form id="registerForm">
                                             <div class="row mb-3">
                                                 <div class="col-md-6">
                                                     <div class="form-floating mb-3 mb-md-0">
-                                                        <input class="form-control" id="inputFirstName" type="text" placeholder="Enter your first name" />
-                                                        <label for="inputFirstName">First name</label>
+                                                        <input class="form-control" id="inputUserName" type="text" placeholder="Enter your user" />
+                                                        <label for="inputUserName">User name</label>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-floating">
-                                                        <input class="form-control" id="inputLastName" type="text" placeholder="Enter your last name" />
-                                                        <label for="inputLastName">Last name</label>
-                                                    </div>
-                                                </div>
+                                   
                                             </div>
                                             <div class="form-floating mb-3">
-                                                <input class="form-control" id="inputEmail" type="email" placeholder="name@example.com" />
+                                                <input class="form-control" id="inputEmail" type="email" placeholder="name@example.com" autocomplete="off" />
                                                 <label for="inputEmail">Email address</label>
                                             </div>
                                             <div class="row mb-3">
@@ -41,9 +36,12 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="mt-4 mb-0">
-                                                <div class="d-grid"><a class="btn btn-primary btn-block" href="login.html">Create Account</a></div>
-                                            </div>
+                                             <!-- Submit -->
+                                                <div class="mt-4 mb-0">
+                                                 <div class="d-grid">
+                                                   <button type="submit" class="btn btn-primary btn-block">Create Account</button>
+                                                      </div>
+                                                </div>
                                         </form>
                                     </div>
                                     <div class="card-footer text-center py-3">
@@ -57,5 +55,48 @@
             </div>
             
         </div>
+       
+
     
+        <script>
+document.getElementById("registerForm").addEventListener("submit", function (event) {
+  event.preventDefault();
+
+  setTimeout(async () => {
+    const username = document.getElementById("inputUserName").value.trim();
+    const email = document.getElementById("inputEmail").value.trim();
+    const password = document.getElementById("inputPassword").value;
+    const confirmPassword = document.getElementById("inputPasswordConfirm").value;
+
+    if (password !== confirmPassword) {
+      alert("Passwords do not match!");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://localhost/TarikTopic/web-dev-uni/backend/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ username, email, password })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        alert("Registration successful!");
+        document.getElementById("registerForm").reset();
+        window.location.href = "#login";
+      } else {
+        const error = await response.text();
+        alert("Registration failed: " + error);
+      }
+    } catch (error) {
+      alert("Request error: " + error.message);
+    }
+
+  }, 0); // <-- delay by 1 event loop tick to ensure updated DOM values
+});
+
+</script>
     </body>

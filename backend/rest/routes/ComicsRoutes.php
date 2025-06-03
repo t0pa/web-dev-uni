@@ -4,6 +4,7 @@
  * @OA\Get(
  *      path="/comics",
  *      tags={"comics"},
+ *       security={{"ApiKey": {}}},
  *      summary="Get all comics",
  *      @OA\Response(
  *           response=200,
@@ -12,6 +13,7 @@
  * )
  */
 Flight::route('GET /comics', function(){
+   Flight::auth_middleware()->authorizeRoles([Roles::ADMIN, Roles::USER]);
    Flight::json(Flight::comicsService()->getAll());
 });
 
@@ -19,6 +21,7 @@ Flight::route('GET /comics', function(){
  * @OA\Get(
  *     path="/comics/{id}",
  *     tags={"comics"},
+ * security={{"ApiKey": {}}},
  *     summary="Get comic by ID",
  *     @OA\Parameter(
  *         name="id",
@@ -34,6 +37,8 @@ Flight::route('GET /comics', function(){
  * )
  */
 Flight::route('GET /comics/@id', function($id){
+      Flight::auth_middleware()->authorizeRoles([Roles::ADMIN, Roles::USER]);
+
    Flight::json(Flight::comicsService()->getById($id));
 });
 
@@ -41,6 +46,7 @@ Flight::route('GET /comics/@id', function($id){
  * @OA\Post(
  *     path="/comics",
  *     tags={"comics"},
+ *    security={{"ApiKey": {}}},
  *     summary="Add a new comic",
  *     @OA\RequestBody(
  *         required=true,
@@ -60,6 +66,8 @@ Flight::route('GET /comics/@id', function($id){
  * )
  */
 Flight::route('POST /comics', function(){
+      Flight::auth_middleware()->authorizeRoles([Roles::ADMIN]);
+
    $data = Flight::request()->data->getData();
    Flight::json(Flight::comicsService()->create($data));
 });
@@ -68,6 +76,7 @@ Flight::route('POST /comics', function(){
  * @OA\Put(
  *     path="/comics/{id}",
  *     tags={"comics"},
+ *   security={{"ApiKey": {}}},
  *     summary="Update a comic fully or partially by ID",
  *     @OA\Parameter(
  *         name="id",
@@ -94,6 +103,8 @@ Flight::route('POST /comics', function(){
  * )
  */
 Flight::route('PUT /comics/@id', function($id){
+      Flight::auth_middleware()->authorizeRoles([Roles::ADMIN]);
+
    $data = Flight::request()->data->getData();
    Flight::json(Flight::comicsService()->update($id, $data));
 });
@@ -102,6 +113,7 @@ Flight::route('PUT /comics/@id', function($id){
  * @OA\Delete(
  *     path="/comics/{id}",
  *     tags={"comics"},
+ *  security={{"ApiKey": {}}},
  *     summary="Delete a comic by ID",
  *     @OA\Parameter(
  *         name="id",
@@ -117,6 +129,8 @@ Flight::route('PUT /comics/@id', function($id){
  * )
  */
 Flight::route('DELETE /comics/@id', function($id){
+      Flight::auth_middleware()->authorizeRoles([Roles::ADMIN]);
+
    Flight::json(Flight::comicsService()->delete($id));
 });
 

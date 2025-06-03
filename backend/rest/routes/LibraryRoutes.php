@@ -4,6 +4,7 @@
  * @OA\Get(
  *     path="/library",
  *     tags={"library"},
+ *    security={{"ApiKey": {}}},
  *     summary="Get all library entries",
  *     @OA\Response(
  *         response=200,
@@ -12,6 +13,8 @@
  * )
  */
 Flight::route('GET /library', function(){
+   Flight::auth_middleware()->authorizeRoles([Roles::USER]);
+   
    Flight::json(Flight::libraryService()->getAll());
 });
 
@@ -19,6 +22,7 @@ Flight::route('GET /library', function(){
  * @OA\Get(
  *     path="/library/{id}",
  *     tags={"library"},
+ *    security={{"ApiKey": {}}},
  *     summary="Get a specific library entry by ID",
  *     @OA\Parameter(
  *         name="id",
@@ -34,6 +38,8 @@ Flight::route('GET /library', function(){
  * )
  */
 Flight::route('GET /library/@id', function($id){ 
+      Flight::auth_middleware()->authorizeRoles([Roles::USER]);
+
    Flight::json(Flight::libraryService()->getById($id));
 });
 
@@ -41,6 +47,7 @@ Flight::route('GET /library/@id', function($id){
  * @OA\Post(
  *     path="/library/{id}",
  *     tags={"library"},
+ *   security={{"ApiKey": {}}},
  *     summary="Add a comic to the library by comic ID",
  *     @OA\Parameter(
  *         name="id",
@@ -56,6 +63,8 @@ Flight::route('GET /library/@id', function($id){
  * )
  */
 Flight::route('POST /library/@id', function($id) {
+      Flight::auth_middleware()->authorizeRoles([Roles::USER]);
+
    $user_id = 1;
    $result = Flight::libraryService()->add_comic_to_library_by_id($id, $user_id);
    Flight::json($result);  
@@ -65,6 +74,7 @@ Flight::route('POST /library/@id', function($id) {
  * @OA\Delete(
  *     path="/library/{id}",
  *     tags={"library"},
+ *   security={{"ApiKey": {}}},
  *     summary="Remove a comic from the library by comic ID",
  *     @OA\Parameter(
  *         name="id",
@@ -80,6 +90,8 @@ Flight::route('POST /library/@id', function($id) {
  * )
  */
 Flight::route('DELETE /library/@id', function($id) {
+      Flight::auth_middleware()->authorizeRoles([Roles::USER]);
+
    $user_id = 1;
    $result = Flight::libraryService()->remove_comic_from_library($id, $user_id);
 
