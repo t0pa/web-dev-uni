@@ -120,9 +120,9 @@ var UserService = {
                                 '    <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>' +
                                 '    Profile' +
                                 '</a>' +
-                                '<a class="nav-link" href="#students">' + // Also add to sidebar if applicable
+                                '<a class="nav-link" href="#wishlist">' + // Also add to sidebar if applicable
                                 '    <div class="sb-nav-link-icon"><i class="fas fa-user-graduate"></i></div>' +
-                                '    Studentsss' +
+                                '    Wishlist' +
                                 '</a>'+
                                 '<a class="nav-link" href="#library">' + // Also add to sidebar if applicable
                                 '    <div class="sb-nav-link-icon"><i class="fas fa-user-graduate"></i></div>' +

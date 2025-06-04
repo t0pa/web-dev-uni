@@ -97,9 +97,9 @@ let ComicService = {
                             ? `<button class="btn btn-primary" onclick="ComicService.addToLibrary(${comic.id})">Add to Library</button>` 
                             : `<button class="btn btn-danger" onclick="ComicService.removeFromLibrary(${comic.id})">Remove from Library</button>`
                             }
-                            ${!isInLibrary || !isInWishlist
-                            ? '<button class="btn btn-secondary" onclick="ComicService.addToWishlist">Add to Wishlist</button>' 
-                            :'<button class="btn btn-secondary" onclick="ComicService.removeFromWishlist">Remove from Wishlist</button>' }            
+                            ${!isInWishlist
+                            ? `<button class="btn btn-secondary" onclick="ComicService.addToWishlist(${comic.id})">Add to Wishlist</button>` 
+                            :`<button class="btn btn-secondary" onclick="ComicService.removeFromWishlist(${comic.id})">Remove from Wishlist</button>` }            
                              
                         </div>
                     </div>

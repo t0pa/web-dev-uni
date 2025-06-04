@@ -12,11 +12,11 @@ class WishlistService extends BaseService {
    }
 
    public function getWishlistByUserId($user_id) {
-       return $this->dao->getWishlistByUserId($user_id);
+       return $this->dao->getWishlistByUserId($user_id);    
    }
 
 
-   public function add_comic_to_wishlist_by_id($id, $user_id = 1) {
+   public function add_comic_to_wishlist_by_id($id, $user_id) {
     // Check if the comic exists using ComicsService
     $comic = $this->comicsService->getById($id);
 
@@ -39,7 +39,7 @@ class WishlistService extends BaseService {
 
 
 
-public function remove_comic_from_wishlist($id, $user_id = 1) {
+public function remove_comic_from_wishlist($id, $user_id ) {
 
     // Check if the comic exists in the user's library (based on both comic_id and user_id)
     $comic = $this->dao->getByComicIdAndUserId($id, $user_id);  // Ensure your DAO supports checking by both comic_id and user_id

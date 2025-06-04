@@ -87,8 +87,8 @@ Flight::route('GET /wishlist/@id', function($id){
  */
 Flight::route('POST /wishlist/@id', function($id) {
                Flight::auth_middleware()->authorizeRoles([Roles::USER]);
-
-   $user_id = 1;
+ $user = Flight::get('user'); // Assumes user is authenticated
+    $user_id = $user->id;  
    $result = Flight::wishlistService()->add_comic_to_wishlist_by_id($id, $user_id);
    Flight::json($result);  
 });
@@ -114,8 +114,9 @@ Flight::route('POST /wishlist/@id', function($id) {
  */
 Flight::route('DELETE /wishlist/@id', function($id) {
                Flight::auth_middleware()->authorizeRoles([Roles::USER]);
-
-   $user_id = 1;
+ $user = Flight::get('user'); // Assumes user is authenticated
+    $user_id = $user->id;  
+   
    $result = Flight::wishlistService()->remove_comic_from_wishlist($id, $user_id);
 
    if ($result) {
