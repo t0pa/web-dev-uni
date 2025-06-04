@@ -37,7 +37,7 @@
                 view: "profile",
                 onCreate: function() {
                     console.log("Profile view loaded");
-                    initializeProfileForm(); // Initialize profile editing functionality
+                   // initializeProfileForm(); // Initialize profile editing functionality
                 }
             }); 
                 
@@ -155,7 +155,7 @@
 
             }
         
-            function initializeProfileForm() {
+            /* function initializeProfileForm() {
                 document.getElementById("edit-profile-btn").addEventListener("click", function () {
                     document.getElementById("profile-view").style.display = "none";
                     document.getElementById("edit-profile-form").style.display = "block";
@@ -176,7 +176,7 @@
                     document.getElementById("profile-view").style.display = "block";
                     document.getElementById("edit-profile-form").style.display = "none";
                 });
-            }
+            } */
 window.addEventListener('DOMContentLoaded', event => {
 
     // Toggle the side navigation

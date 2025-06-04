@@ -77,8 +77,8 @@ Flight::group('/auth', function() {
     *          description="Credentials",
     *          @OA\JsonContent(
     *              required={"email","password"},
-    *              @OA\Property(property="email", type="string", example="demo@gmail.com", description="Student email address"),
-    *              @OA\Property(property="password", type="string", example="some_password", description="Student password")
+    *              @OA\Property(property="email", type="string", example="buco@gmail.com", description="Student email address"),
+    *              @OA\Property(property="password", type="string", example="123", description="Student password")
     *          )
     *      )
     * )

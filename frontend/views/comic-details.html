@@ -1,54 +1,9 @@
 <div class="container py-3">
-    <!-- Comic Details -->
-    <div class="card mb-4">
-        <div class="row g-0">
-            <div class="col-md-3">
-                <img src="https://resizing.flixster.com/-XZAfHZM39UwaGJIFWKAE8fS0ak=/v3/t/assets/p186423_b_v8_ae.jpg" class="img-fluid rounded-start" alt="Comic Cover">
-            </div>
-            <div class="col-md-8">
-                <div class="card-body">
-                    <h3 class="card-title">One Piece</h3>
-                    <p class="text-muted">By Eiichiro Oda</p>
-                    <p><strong>Genre:</strong> Action, Adventure, Fantasy</p>
-                    <p><strong>Chapters:</strong> 1100+</p>
-                    
-                    <!-- Rating System -->
-                    <p><strong>Rating:</strong>  
-                        <span class="text-warning">
-                            ★★★★☆
-                        </span> (4.5/5)
-                    </p>
-
-                    <button class="btn btn-primary">Add to Library</button>
-                    <button class="btn btn-secondary">Add to Wishlist</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Reviews Section -->
-    <div class="card">
-        <div class="card-header">
-            <h4>Reviews</h4>
-        </div>
-        <div class="card-body">
-            <div class="mb-3">
-                <input type="text" class="form-control" placeholder="Write a review...">
-                <button class="btn btn-success mt-2">Submit Review</button>
-            </div>
-
-            <div class="border p-3 mb-2">
-                <strong>Tarik:</strong> 
-                <span class="text-warning">★★★★☆</span>
-                <p>One of the best mangas ever!</p>
-            </div>
-
-            <div class="border p-3">
-                <strong>John:</strong> 
-                <span class="text-warning">★★★★★</span>
-                <p>Absolutely incredible story and world-building.</p>
-            </div>
-        </div>
-    </div>
-
 </div>
+
+
+<script>
+    $(document).ready(function () {
+        // Initialize the comic details page
+        ComicService.getComicDetails();
+    });

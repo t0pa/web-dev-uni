@@ -1,4 +1,65 @@
 <?php
+/**
+ * @OA\Put(
+ *     path="/user/update",
+ *     tags={"users"},
+ *     security={{"ApiKey": {}}},
+ *     summary="Update authenticated user's name",
+ *     description="Update the authenticated user's username and email",
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\JsonContent(
+ *             required={"username", "email"},
+ *             @OA\Property(property="username", type="string", example="john_updated"),
+ *             @OA\Property(property="email", type="string", format="email", example="john_updated@example.com")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="User updated successfully"
+ *     )
+ * )
+ */
+Flight::route('PUT /user/update', function(){
+    Flight::auth_middleware()->authorizeRoles([Roles::ADMIN, Roles::USER]);
+    $user = Flight::get('user'); // Assumes user is authenticated
+    $id = $user->id; // Get the authenticated user's ID 
+    $data = Flight::request()->data->getData();
+
+    $allowedFields = ['username', 'email'];
+    $data = array_intersect_key($data, array_flip($allowedFields));
+    // Validate that only allowed fields are being updated
+
+    $result = Flight::userService()->update($id, $data);
+
+    if ($result) {
+        Flight::json(['message' => 'User updated successfully']);
+    } else {
+        Flight::halt(500, json_encode(['error' => 'Failed to update user']));
+    }
+});
+
+
+/**
+ * @OA\Get(
+ *     path="/user/me",
+ *     tags={"users"},
+ *   security={{"ApiKey": {}}},
+ *     summary="Get data about the currently authenticated user",
+ *  
+ *     @OA\Response(
+ *         response=200,
+ *         description="User data"
+ *     )
+ * )
+ */
+Flight::route('GET /user/me', function(){ 
+      Flight::auth_middleware()->authorizeRoles([Roles::ADMIN, Roles::USER]);
+      $user = Flight::get('user'); // Assumes user is authenticated
+    $user_id = $user->id; 
+   Flight::json(Flight::userService()->getById($user_id));
+});
+
 
 /**
  * @OA\Get(

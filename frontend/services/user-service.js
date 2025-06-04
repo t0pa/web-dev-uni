@@ -123,7 +123,12 @@ var UserService = {
                                 '<a class="nav-link" href="#students">' + // Also add to sidebar if applicable
                                 '    <div class="sb-nav-link-icon"><i class="fas fa-user-graduate"></i></div>' +
                                 '    Studentsss' +
+                                '</a>'+
+                                '<a class="nav-link" href="#library">' + // Also add to sidebar if applicable
+                                '    <div class="sb-nav-link-icon"><i class="fas fa-user-graduate"></i></div>' +
+                                '    Library' +
                                 '</a>'; // Add other user-specific sidebar links
+                                
 
                 break;
             case Constants.ADMIN_ROLE:
@@ -147,6 +152,10 @@ var UserService = {
                                 '<a class="nav-link" href="#explore">' +
                                 '    <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>' +
                                 '    Explore Comics' +
+                                '</a>' +
+                                '<a class="nav-link" href="#library">' + // Also add to sidebar if applicable
+                                '    <div class="sb-nav-link-icon"><i class="fas fa-user-graduate"></i></div>' +
+                                '    Library' +
                                 '</a>' +
                                 '<a class="nav-link" href="#profile">' +
                                 '    <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>' +

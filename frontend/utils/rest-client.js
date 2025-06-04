@@ -21,13 +21,15 @@ let RestClient = {
      $.ajax({
        url: Constants.PROJECT_BASE_URL + url,
        type: method,
+       contentType: 'application/json',    // <-- important for JSON PUT/POST
+        dataType: 'json',
        beforeSend: function (xhr) {
          xhr.setRequestHeader(
            "Authentication",
            localStorage.getItem("user_token")
          );
        },
-       data: data,
+       data: JSON.stringify(data)
      })
        .done(function (response, status, jqXHR) {
          if (callback) callback(response);

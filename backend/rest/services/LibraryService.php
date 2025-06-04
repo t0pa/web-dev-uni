@@ -16,7 +16,12 @@ class LibraryService extends BaseService {
        return $this->dao->getByStatus($userId, $status);
    }
 
-   public function add_comic_to_library_by_id($id, $user_id = 1) {
+    public function getUserLibraryComics($user_id) {
+         return $this->dao->getUserLibraryComics($user_id);
+    }
+
+
+   public function add_comic_to_library_by_id($id, $user_id) {
     // Check if the comic exists using ComicsService
     $comic = $this->comicsService->getById($id);
 
@@ -39,7 +44,7 @@ class LibraryService extends BaseService {
 }
 
 
-public function remove_comic_from_library($id, $user_id = 1) {
+public function remove_comic_from_library($id, $user_id) {
 
     // Check if the comic exists in the user's library (based on both comic_id and user_id)
     $comic = $this->dao->getByComicIdAndUserId($id, $user_id);  // Ensure your DAO supports checking by both comic_id and user_id
