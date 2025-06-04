@@ -3,6 +3,14 @@ let ProfileService = {
 getUserProfile: function () {
         RestClient.get("user/me", function (user) {
             ProfileService.renderProfilePage(user);
+
+            if (!sessionStorage.getItem('profileReloaded')) {
+            sessionStorage.setItem('profileReloaded', 'true');
+            location.reload();
+        } else {
+            sessionStorage.removeItem('profileReloaded');
+        }
+
         }, function (xhr, status, error) {
             console.error("Failed to load user profile:", error);
         });
@@ -107,7 +115,7 @@ toastr.success("Profile updated!");
 
         }, function (xhr, status, error) {
             console.error("Failed to update profile:", error);
-            toastr.error("Failed to update profile.");
+            toastr.error("Failed to update profile. Username or email might already be taken.");
         });
     });
 }

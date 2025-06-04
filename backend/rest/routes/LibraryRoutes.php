@@ -113,7 +113,7 @@ $user = Flight::get('user'); // Assumes user is authenticated
  * )
  */
 Flight::route('DELETE /library/@id', function($id) {
-      Flight::auth_middleware()->authorizeRoles([Roles::USER]);
+      Flight::auth_middleware()->authorizeRoles([Roles::USER, Roles::ADMIN]);
 $user = Flight::get('user'); // Assumes user is authenticated
     $user_id = $user->id; 
    $result = Flight::libraryService()->remove_comic_from_library($id, $user_id);

@@ -1,0 +1,22 @@
+<section class="py-5">
+    <div class="container px-4 px-lg-5 mt-5">
+        <!-- Placeholder for comics, will be dynamically filled by ComicService -->
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+            <!-- Comic cards will be inserted here by ComicService.renderComics() -->
+        </div>
+    </div>
+</section>
+
+
+<!-- Then call ComicService.init() AFTER everything is loaded -->
+<script>
+    $(document).ready(function () {
+        ComicService.getWishlistComics();
+    });
+    
+
+
+
+</script>
+
+

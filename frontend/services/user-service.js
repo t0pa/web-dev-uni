@@ -161,9 +161,9 @@ var UserService = {
                                 '    <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>' +
                                 '    Profile' +
                                 '</a>' +
-                                '<a class="nav-link" href="#students">' +
+                                '<a class="nav-link" href="#wishlist">' +
                                 '    <div class="sb-nav-link-icon"><i class="fas fa-user-graduate"></i></div>' +
-                                '    Students' +
+                                '    Wishlist' +
                                 '</a>' +
                                 '<a class="nav-link" href="#admin-settings">' + // Example admin specific sidebar link
                                 '    <div class="sb-nav-link-icon"><i class="fas fa-cog"></i></div>' +

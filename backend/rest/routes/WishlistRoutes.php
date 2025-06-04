@@ -1,5 +1,28 @@
 <?php
 
+
+/**
+ * @OA\Get(
+ *     path="/wishlist/user",
+ *     tags={"wishlist"},
+ *     security={{"ApiKey": {}}},
+ *     summary="Get all comics in the current user's wishlist",
+ *     @OA\Response(
+ *         response=200,
+ *         description="List of comic details in the user's wishlist"
+ *     )
+ * )
+ */
+Flight::route('GET /wishlist/user', function () {
+ 
+     Flight::auth_middleware()->authorizeRoles([Roles::USER, Roles::ADMIN]);
+    $user = Flight::get('user'); // Assumes user is authenticated
+    $user_id = $user->id;  
+    Flight::json(Flight::wishlistService()->getWishlistByUserId($user_id));
+    
+});
+
+
 /**
  * @OA\Get(
  *     path="/wishlist",

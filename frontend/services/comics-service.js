@@ -45,11 +45,15 @@ let ComicService = {
         return;
     }
 
-        RestClient.get('comics/'+id, function (comic) {
-            ComicService.renderComicDetails(comic);
-        }, function (xhr, status, error) {
-            console.error('Error fetching comic details:', error);
+        RestClient.get('comics/' + id, function (comic) {
+        RestClient.get("library/user", function (library) {
+            RestClient.get("wishlist", function (wishlist) {
+                const isInLibrary = library.some(lib => lib.id === comic.id);
+                const isInWishlist = wishlist.some(wish => wish.id === comic.id);
+                ComicService.renderComicDetails(comic, isInLibrary, isInWishlist);
+            });
         });
+    });
     },
 
  helperFunctions: {
@@ -68,9 +72,9 @@ let ComicService = {
 },
 
 
-    renderComicDetails: function (comic) {
+    renderComicDetails: function (comic,isInLibrary = false, isInWishlist = false) {
 
-        
+        var rating = comic.rating || 4.4; // Default rating if not provided
         const container = document.querySelector(".container");
         container.innerHTML = `
             <div class="card mb-4">
@@ -83,14 +87,20 @@ let ComicService = {
                             <h3 class="card-title">${comic.title}</h3>
                             <p class="text-muted">By ${comic.author}</p>
                             <p><strong>Genre:</strong> ${comic.genre}</p>
-                            <p><strong>Chapters:</strong> ${comic.chapters}</p>
+                            <p><strong>Chapters:</strong> ${comic.total_chapters}</p>
                             <p><strong>Rating:</strong>  
                                 <span class="text-warning">
-                                    ${'★'.repeat(Math.floor(comic.rating))}${'☆'.repeat(5 - Math.floor(comic.rating))}
-                                </span> (${comic.rating}/5)
+                                    ${'★'.repeat(Math.floor(rating))}${'☆'.repeat(5 - Math.floor(rating))}
+                                </span> (${rating}/5)
                             </p>
-                            <button class="btn btn-primary" onclick="ComicService.addToLibrary(${comic.id})">Add to Library</button>
-                            <button class="btn btn-secondary">Add to Wishlist</button>
+                            ${!isInLibrary 
+                            ? `<button class="btn btn-primary" onclick="ComicService.addToLibrary(${comic.id})">Add to Library</button>` 
+                            : `<button class="btn btn-danger" onclick="ComicService.removeFromLibrary(${comic.id})">Remove from Library</button>`
+                            }
+                            ${!isInLibrary || !isInWishlist
+                            ? '<button class="btn btn-secondary" onclick="ComicService.addToWishlist">Add to Wishlist</button>' 
+                            :'<button class="btn btn-secondary" onclick="ComicService.removeFromWishlist">Remove from Wishlist</button>' }            
+                             
                         </div>
                     </div>
                 </div>
@@ -142,9 +152,14 @@ let ComicService = {
 },
 
 addToLibrary: function(comicId) {
+
+
+
     RestClient.post(`library/${comicId}`, {}, function(response) {
-        alert('Comic added to your library!');
+        toastr.success('Comic added to your library!');
+        console.log('Comic added successfully:', response);
         // Optionally refresh library view or update UI here
+        ComicService.getComicDetails(); // reload comic details
     }, function(xhr, status, error) {
         console.error('Error adding comic to library:', error);
         alert('Failed to add comic to library.');
@@ -152,5 +167,62 @@ addToLibrary: function(comicId) {
 },
 
 
-   
+   removeFromLibrary: function(comicId) {
+    RestClient.delete(`library/${comicId}`, {}, function(response) {
+
+        console.log('Comic removed:', response);
+        // Show success message
+        toastr.info('Comic removed from your library!');
+        
+        // Optionally refresh or update the UI
+        ComicService.getComicDetails(); // reload comic details
+    }, function(xhr, status, error) {
+        console.error('Error removing comic from library:', error);
+        alert('Failed to remove comic from library.');
+    });
+},
+
+
+ getWishlistComics: function () {
+       RestClient.get("wishlist/user", function (data) {
+        if (!data || data.length === 0) {
+            document.querySelector(".row-cols-xl-4").innerHTML = "<p>No comics in your wishlist.</p>";
+            return;
+        }
+        
+
+        ComicService.renderComicCards(data);
+        
+           // Reload once only when loading library comics
+        if (!sessionStorage.getItem('wishlistReloaded')) {
+            sessionStorage.setItem('wishlistReloaded', 'true');
+            location.reload();
+        } else {
+            sessionStorage.removeItem('wishlistReloaded');
+        }
+       
+
+    }, function (xhr, status, error) {
+        console.error('Error fetching user wishlist comics:', error);
+    });
+},
+addToWishlist: function(comicId) {
+    RestClient.post(`wishlist/${comicId}`, {}, function(response) {
+        toastr.success('Comic added to your wishlist!');
+        ComicService.getComicDetails(); // reload to update button
+    }, function(xhr, status, error) {
+        toastr.error('Failed to add comic to wishlist.');
+        console.error(error);
+    });
+},
+removeFromWishlist: function(comicId) {
+    RestClient.delete(`wishlist/${comicId}`, {}, function(response) {
+        toastr.success('Comic removed from your wishlist!');
+        ComicService.getComicDetails();
+    }, function(xhr, status, error) {
+        toastr.error('Failed to remove comic from wishlist.');
+        console.error(error);
+    });
+}
+
 };

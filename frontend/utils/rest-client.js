@@ -29,7 +29,7 @@ let RestClient = {
            localStorage.getItem("user_token")
          );
        },
-       data: JSON.stringify(data)
+       data: JSON.stringify(data) 
      })
        .done(function (response, status, jqXHR) {
          if (callback) callback(response);
