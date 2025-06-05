@@ -47,7 +47,7 @@ let ComicService = {
 
         RestClient.get('comics/' + id, function (comic) {
         RestClient.get("library/user", function (library) {
-            RestClient.get("wishlist", function (wishlist) {
+            RestClient.get("wishlist/user", function (wishlist) {
                 const isInLibrary = library.some(lib => lib.id === comic.id);
                 const isInWishlist = wishlist.some(wish => wish.id === comic.id);
                 ComicService.renderComicDetails(comic, isInLibrary, isInWishlist);
@@ -209,7 +209,9 @@ addToLibrary: function(comicId) {
 addToWishlist: function(comicId) {
     RestClient.post(`wishlist/${comicId}`, {}, function(response) {
         toastr.success('Comic added to your wishlist!');
+        console.log('Comic added to wishlist successfully:', response);
         ComicService.getComicDetails(); // reload to update button
+
     }, function(xhr, status, error) {
         toastr.error('Failed to add comic to wishlist.');
         console.error(error);
@@ -218,6 +220,7 @@ addToWishlist: function(comicId) {
 removeFromWishlist: function(comicId) {
     RestClient.delete(`wishlist/${comicId}`, {}, function(response) {
         toastr.success('Comic removed from your wishlist!');
+        console.log('Comic removed from wishlist successfully:', response);
         ComicService.getComicDetails();
     }, function(xhr, status, error) {
         toastr.error('Failed to remove comic from wishlist.');
