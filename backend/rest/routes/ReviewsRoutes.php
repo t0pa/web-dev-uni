@@ -37,8 +37,8 @@ Flight::route('GET /reviews', function(){
  * )
  */
 Flight::route('GET /reviews/comic/@comic_id', function($comic_id){ 
-      Flight::auth_middleware()->authorizeRoles([Roles::USER]);
-
+    
+    Flight::auth_middleware()->authorizeRoles([Roles::USER, Roles::ADMIN]);
     Flight::json(Flight::reviewsService()->get_reviews_for_comic($comic_id));
 });
 
@@ -70,16 +70,17 @@ Flight::route('GET /reviews/comic/@comic_id', function($comic_id){
  * )
  */
 Flight::route('POST /reviews/comic/@comic_id', function($comic_id){
-         Flight::auth_middleware()->authorizeRoles([Roles::USER]);
+         Flight::auth_middleware()->authorizeRoles([Roles::USER, Roles::ADMIN]);
 
     $data = Flight::request()->data->getData();
-    $user_id = 1; // Static user ID
+    $user = Flight::get('user'); // Assumes user is authenticated
+    $user_id = $user->id;  
     Flight::json(Flight::reviewsService()->create_review($comic_id, $user_id, $data));
 });
 
 /**
  * @OA\Put(
- *     path="/reviews/comic/{comic__id}",
+ *     path="/reviews/comic/{comic_id}",
  *     tags={"reviews"},
  *   security={{"ApiKey": {}}},
  *     summary="Update a review for a comic",
@@ -105,12 +106,15 @@ Flight::route('POST /reviews/comic/@comic_id', function($comic_id){
  * )
  */
 Flight::route('PUT /reviews/comic/@comic_id', function($comic_id){
-         Flight::auth_middleware()->authorizeRoles([Roles::USER]);
+    Flight::auth_middleware()->authorizeRoles([Roles::USER, Roles::ADMIN]);
 
-    $user_id = 1;
+    $user = Flight::get('user');
+    $user_id = $user->id;
+
     $data = Flight::request()->data->getData();
-    Flight::json(Flight::reviewsService()->update_review($comic_id, $data));
+    Flight::json(Flight::reviewsService()->update_review($comic_id, $user_id, $data));
 });
+
 
 /**
  * @OA\Delete(
@@ -136,10 +140,11 @@ Flight::route('PUT /reviews/comic/@comic_id', function($comic_id){
  * )
  */
 Flight::route('DELETE /reviews/comic/@comic_id', function($comic_id) {
-         Flight::auth_middleware()->authorizeRoles([Roles::USER]);
+         Flight::auth_middleware()->authorizeRoles([Roles::USER, Roles::ADMIN]);
 
-    $user_id = Flight::get('user')['id']; // Or however you get the authenticated user
-
+    $user = Flight::get('user'); // Assumes user is authenticated
+    $user_id = $user->id;
+   
     try {
         Flight::json(Flight::reviewsService()->delete_review_by_user_and_comic($comic_id, $user_id));
     } catch (Exception $e) {

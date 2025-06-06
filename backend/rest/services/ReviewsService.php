@@ -21,7 +21,7 @@ class ReviewsService extends BaseService {
     }
 
 
-    public function create_review($comic_id, $user_id = 1 , $data) {
+    public function create_review($comic_id, $user_id , $data) {
         // Validate the data before inserting
         if (empty($data['rating']) || empty($data['comment']) || $data['rating'] < 1 || $data['rating'] > 5) {
             throw new Exception("Missing required fields: comic_id, user_id, rating, review. Rating must be between 1 and 5.");
@@ -47,15 +47,20 @@ class ReviewsService extends BaseService {
         return $this->dao->get_reviews_for_comic($comic_id);
     }
 
-    public function update_review($review_id, $data) {
-        // Validate the data before updating
-        if (empty($data['rating']) || empty($data['comment']) || $data['rating'] < 1 || $data['rating'] > 5) {
-            throw new Exception("Missing required fields: rating, review. Rating must be between 1 and 5.");
-        }
-
-        // Call the parent update method to update the review
-        return parent::update($review_id, $data);
+    public function update_review($comic_id, $user_id, $data) {
+    if (empty($data['rating']) || empty($data['comment']) || $data['rating'] < 1 || $data['rating'] > 5) {
+        throw new Exception("Missing required fields: rating, comment. Rating must be between 1 and 5.");
     }
+
+    $existing_review = $this->dao->get_user_review_for_comic($comic_id, $user_id);
+
+    if (!$existing_review) {
+        throw new Exception("Review not found or you're not the owner.");
+    }
+
+    return parent::update($existing_review['id'], $data);
+}
+
 
     public function delete_review_by_user_and_comic($comic_id, $user_id) {
     $existing_review = $this->dao->get_user_review_for_comic($comic_id, $user_id);
@@ -64,7 +69,12 @@ class ReviewsService extends BaseService {
         throw new Exception("Review not found or you're not the owner.");
     }
 
-    return $this->dao->delete($existing_review['id']);
+      $success = $this->dao->deleteById($existing_review['id']);
+    if ($success) {
+        return ['success' => true, 'message' => 'Review deleted successfully'];
+    } else {
+        throw new Exception("Failed to delete review");
+    }
 }
 
 
