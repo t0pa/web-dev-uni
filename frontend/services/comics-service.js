@@ -281,6 +281,7 @@ ${userReview ? `<button class="btn btn-danger mt-2 ms-2" onclick="ComicService.d
 
         RestClient.post(`reviews/comic/${comicId}`, { comment, rating }, function(response) {
             toastr.success("Review submitted!");
+             ComicService.addToLibrary(comicId);
             ComicService.getComicDetails(); // refresh with new review
         }, function(xhr, status, error) {
             console.error("Failed to submit review:", error);
