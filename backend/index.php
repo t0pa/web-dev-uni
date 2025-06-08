@@ -69,7 +69,7 @@ require_once __DIR__ . '/rest/routes/ComicsRoutes.php';
 
 $allowedOrigins = [
     "http://localhost/TarikTopic/web-dev-uni/backend/",
-   "https://comicfront-app-dul8l.ondigitalocean.app/",
+   "https://comic-app-jhrcg.ondigitalocean.app/",
 ];
 
 if (isset($_SERVER['HTTP_ORIGIN']) && in_array($_SERVER['HTTP_ORIGIN'], $allowedOrigins)) {
