@@ -18,12 +18,12 @@ let RestClient = {
        });
    },
 
-   request: function (url, method, data, callback, error_callback) {
+   request: function (url, method, data, callback, error_callback, dataType = 'json') {
      $.ajax({
        url: Constants.PROJECT_BASE_URL + url,
        type: method,
        contentType: 'application/json',
-       dataType: 'json',
+       dataType: dataType,
        beforeSend: function (xhr) {
          xhr.setRequestHeader(
            "Authentication",
@@ -55,7 +55,7 @@ let RestClient = {
    },
 
    delete: function (url, data, callback, error_callback) {
-     RestClient.request(url, "DELETE", data, callback, error_callback);
+     RestClient.request(url, "DELETE", data, callback, error_callback,'text');
    },
 
    patch: function (url, data, callback, error_callback) {
