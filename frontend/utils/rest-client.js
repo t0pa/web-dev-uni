@@ -1,7 +1,7 @@
 let RestClient = {
    get: function (url, callback, error_callback) {
       $.ajax({
-         url: Constants.PROJECT_BASE_URL + url,
+         url: Constants.get_api_base_url() + url,
          type: "GET",
          beforeSend: function (xhr) {
            xhr.setRequestHeader(
@@ -20,7 +20,7 @@ let RestClient = {
 
    request: function (url, method, data, callback, error_callback, dataType = 'json') {
      $.ajax({
-       url: Constants.PROJECT_BASE_URL + url,
+       url: Constants.get_api_base_url() + url,
        type: method,
        contentType: 'application/json',
        dataType: dataType,

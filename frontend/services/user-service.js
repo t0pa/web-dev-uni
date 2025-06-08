@@ -132,7 +132,7 @@ toastr.options = {
   $.blockUI({ message: '<h4>Logging in...</h4>' });
 
   $.ajax({
-    url: Constants.PROJECT_BASE_URL + "auth/login",
+    url: Constants.get_api_base_url() + "auth/login",
     type: "POST",
     data: JSON.stringify(entity),
     contentType: "application/json",
@@ -161,7 +161,7 @@ toastr.options = {
 
  register: function (entity) {
   $.ajax({
-    url: Constants.PROJECT_BASE_URL + "auth/register", // Make sure this matches your backend route
+    url: Constants.get_api_base_url() + "auth/register", // Make sure this matches your backend route
     type: "POST",
     data: JSON.stringify(entity),
     contentType: "application/json",

@@ -67,6 +67,21 @@ require_once __DIR__ . '/rest/routes/ComicsRoutes.php';
 
 
 
+$allowedOrigins = [
+    "http://localhost/TarikTopic/web-dev-uni/backend/",
+   "https://comicfront-app-dul8l.ondigitalocean.app/",
+];
+
+if (isset($_SERVER['HTTP_ORIGIN']) && in_array($_SERVER['HTTP_ORIGIN'], $allowedOrigins)) {
+    header("Access-Control-Allow-Origin: " . $_SERVER['HTTP_ORIGIN']);
+} 
+
+header("Access-Control-Allow-Methods: GET, POST, PATCH, DELETE, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authentication");
+if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+    http_response_code(204);
+    exit();
+}
 
 
 //require_once  "rest/routes/LibraryRoutes.php";
