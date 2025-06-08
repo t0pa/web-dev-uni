@@ -198,7 +198,53 @@ window.addEventListener('DOMContentLoaded', event => {
         });
     }
 
-}); 
+});
+
+$(document).ready(function() {
+  // Store all comics in memory after first load
+  let allComics = [];
+
+  // Override renderComicCards to keep all comics (only if not already set)
+  const originalRender = ComicService.renderComicCards;
+  ComicService.renderComicCards = function(comics) {
+    // Only set allComics if it's empty (first load)
+    if (allComics.length === 0) {
+      allComics = comics;
+    }
+    originalRender.call(ComicService, comics);
+  };
+
+  // Live search: filter as you type
+  $(".form-control[aria-label='Search for...']").on("input", function() {
+    const query = $(this).val().toLowerCase();
+    if (!query) {
+      ComicService.renderComicCards(allComics); // Show all comics if search is empty
+      return;
+    }
+    const filtered = allComics.filter(comic =>
+      comic.title.toLowerCase().includes(query) ||
+      (comic.author && comic.author.toLowerCase().includes(query)) ||
+      (comic.genre && comic.genre.toLowerCase().includes(query))
+    );
+    ComicService.renderComicCards(filtered);
+  });
+
+  // Optional: keep button for accessibility (Enter key, etc.)
+  $("#btnNavbarSearch").on("click", function(e) {
+    e.preventDefault();
+    const query = $(".form-control[aria-label='Search for...']").val().toLowerCase();
+    if (!query) {
+      ComicService.renderComicCards(allComics);
+      return;
+    }
+    const filtered = allComics.filter(comic =>
+      comic.title.toLowerCase().includes(query) ||
+      (comic.author && comic.author.toLowerCase().includes(query)) ||
+      (comic.genre && comic.genre.toLowerCase().includes(query))
+    );
+    ComicService.renderComicCards(filtered);
+  });
+});
 
 
 

@@ -213,7 +213,6 @@ ${userReview ? `<button class="btn btn-danger mt-2 ms-2" onclick="ComicService.d
             ComicService.getComicDetails(); // refresh UI
         }, function(xhr, status, error) {
             console.error('Error adding comic to library:', error);
-            alert('Failed to add comic to library.');
         });
     }
     ,
