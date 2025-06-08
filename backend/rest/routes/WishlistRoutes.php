@@ -1,5 +1,28 @@
 <?php
 
+
+/**
+ * @OA\Get(
+ *     path="/wishlist/user",
+ *     tags={"wishlist"},
+ *     security={{"ApiKey": {}}},
+ *     summary="Get all comics in the current user's wishlist",
+ *     @OA\Response(
+ *         response=200,
+ *         description="List of comic details in the user's wishlist"
+ *     )
+ * )
+ */
+Flight::route('GET /wishlist/user', function () {
+ 
+     Flight::auth_middleware()->authorizeRoles([Roles::USER, Roles::ADMIN]);
+    $user = Flight::get('user'); // Assumes user is authenticated
+    $user_id = $user->id;  
+    Flight::json(Flight::wishlistService()->getWishlistByUserId($user_id));
+    
+});
+
+
 /**
  * @OA\Get(
  *     path="/wishlist",
@@ -13,7 +36,7 @@
  * )
  */
 Flight::route('GET /wishlist', function(){
-            Flight::auth_middleware()->authorizeRoles([Roles::USER]);
+            Flight::auth_middleware()->authorizeRoles([Roles::USER, Roles::ADMIN]);
 
    Flight::json(Flight::wishlistService()->getAll());
 });
@@ -38,7 +61,7 @@ Flight::route('GET /wishlist', function(){
  * )
  */
 Flight::route('GET /wishlist/@id', function($id){ 
-               Flight::auth_middleware()->authorizeRoles([Roles::USER]);
+               Flight::auth_middleware()->authorizeRoles([Roles::USER , Roles::ADMIN]);
 
    Flight::json(Flight::wishlistService()->getById($id));
 });
@@ -63,9 +86,9 @@ Flight::route('GET /wishlist/@id', function($id){
  * )
  */
 Flight::route('POST /wishlist/@id', function($id) {
-               Flight::auth_middleware()->authorizeRoles([Roles::USER]);
-
-   $user_id = 1;
+               Flight::auth_middleware()->authorizeRoles([Roles::USER, Roles::ADMIN]);
+ $user = Flight::get('user'); // Assumes user is authenticated
+    $user_id = $user->id;  
    $result = Flight::wishlistService()->add_comic_to_wishlist_by_id($id, $user_id);
    Flight::json($result);  
 });
@@ -90,9 +113,10 @@ Flight::route('POST /wishlist/@id', function($id) {
  * )
  */
 Flight::route('DELETE /wishlist/@id', function($id) {
-               Flight::auth_middleware()->authorizeRoles([Roles::USER]);
-
-   $user_id = 1;
+               Flight::auth_middleware()->authorizeRoles([Roles::USER, Roles::ADMIN]);
+ $user = Flight::get('user'); // Assumes user is authenticated
+    $user_id = $user->id;  
+   
    $result = Flight::wishlistService()->remove_comic_from_wishlist($id, $user_id);
 
    if ($result) {

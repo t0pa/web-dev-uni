@@ -1,0 +1,77 @@
+<section class="py-5">
+  <div class="container px-4 px-lg-5 mt-5">
+    <div class="d-flex justify-content-between mb-3">
+      <h2>Manage Comics</h2>
+      <button class="btn btn-primary" id="add-comic-btn">Add New Comic</button>
+    </div>
+
+    <div id="comic-list" class="row row-cols-1 row-cols-md-3 g-4">
+      <!-- Comic cards inserted here -->
+    </div>
+  </div>
+
+  <!-- Modal for Add/Edit Comic -->
+  <div class="modal fade" id="comicModal" tabindex="-1" aria-labelledby="comicModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h5 class="modal-title" id="comicModalLabel">Comic</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body">
+          <form id="comic-form">
+            <input type="hidden" id="comic-id">
+
+            <div class="mb-3">
+              <label for="comic-title" class="form-label">Title</label>
+              <input type="text" class="form-control" id="comic-title" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="comic-author" class="form-label">Author</label>
+              <input type="text" class="form-control" id="comic-author" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="comic-genre" class="form-label">Genre</label>
+              <input type="text" class="form-control" id="comic-genre" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="comic-chapters" class="form-label">Total Chapters</label>
+              <input type="number" class="form-control" id="comic-chapters" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="comic-cover" class="form-label">Cover Image URL</label>
+              <input type="text" class="form-control" id="comic-cover">
+            </div>
+
+            <div class="text-end">
+              <button type="submit" class="btn btn-primary">Save Comic</button>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Admin Script -->
+<script>
+  $(document).ready(function () {
+    ComicService.getAllComics();
+
+    $('#add-comic-btn').click(function () {
+      ComicService.openModal(); // clears form + opens modal
+    });
+
+    $('#comic-form').submit(function (e) {
+      e.preventDefault();
+      ComicService.saveComic(); // handles create or update
+    });
+  });
+</script>

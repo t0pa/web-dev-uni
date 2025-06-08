@@ -21,14 +21,14 @@
                                 <div class="card-header"><h3 class="text-center font-weight-light my-4">Login</h3></div>
                                 <div class="card-body">
                                     <form id="loginForm">
-                                        <div class="form-floating mb-3">
-                                            <label>Email address</label>
-                                            <input type="email" name="email" class="form-control" required />
-                                        </div>
-                                        <div class="form-floating mb-3">
-                                            <label>Password</label>
-                                            <input type="password" name="password" class="form-control" required />
-                                        </div>
+                                       <div class="form-floating mb-3">
+                                                        <input type="email" id="email" name="email" class="form-control" required />
+                                                        <label for="email">Email address</label>
+                                                    </div>
+                                                    <div class="form-floating mb-3">
+                                                        <input type="password" id="password" name="password" class="form-control" required />
+                                                        <label for="password">Password</label>
+                                                    </div>
                                         <div class="form-check mb-3">
                                             <input class="form-check-input" id="inputRememberPassword" type="checkbox" />
                                             <label class="form-check-label" for="inputRememberPassword">Remember Password</label>
@@ -49,14 +49,23 @@
             </main>
         </div>
     </div>
+<!-- Other dependencies -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/toastr@2.1.4/build/toastr.min.js"></script>
 
-    <!-- Dependencies -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/toastr@2.1.4/build/toastr.min.js"></script>
-    <script src="utils/constants.js"></script>
-    <script src="services/user-service.js"></script>
+<!-- 🔽 Add this line below the others -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js"></script>
 
+<!-- Your scripts -->
+<script src="utils/constants.js"></script>
+<script src="services/user-service.js"></script>
+
+<!-- Init -->
+<script>
+    UserService.init();
+</script>
+    
     <!-- Init script -->
     <script>
         UserService.init();

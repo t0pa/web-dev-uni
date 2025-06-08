@@ -56,47 +56,7 @@
             
         </div>
        
-
-    
-        <script>
-document.getElementById("registerForm").addEventListener("submit", function (event) {
-  event.preventDefault();
-
-  setTimeout(async () => {
-    const username = document.getElementById("inputUserName").value.trim();
-    const email = document.getElementById("inputEmail").value.trim();
-    const password = document.getElementById("inputPassword").value;
-    const confirmPassword = document.getElementById("inputPasswordConfirm").value;
-
-    if (password !== confirmPassword) {
-      alert("Passwords do not match!");
-      return;
-    }
-
-    try {
-      const response = await fetch("http://localhost/TarikTopic/web-dev-uni/backend/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ username, email, password })
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        alert("Registration successful!");
-        document.getElementById("registerForm").reset();
-        window.location.href = "#login";
-      } else {
-        const error = await response.text();
-        alert("Registration failed: " + error);
-      }
-    } catch (error) {
-      alert("Request error: " + error.message);
-    }
-
-  }, 0); // <-- delay by 1 event loop tick to ensure updated DOM values
-});
-
-</script>
+<!-- 
+        CONVERT THIS TO STANDALONE HTML FILE -->
+        
     </body>

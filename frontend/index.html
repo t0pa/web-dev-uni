@@ -23,7 +23,7 @@
     <body class="sb-nav-fixed sb-sidenav-toggled">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
-            <a class="navbar-brand ps-3" href="#dashboard">ComicLoom</a>
+            <a class="navbar-brand ps-3" href="#explore">ComicLoom</a>
             <!-- Sidebar Toggle-->
             <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
             <!-- Navbar Search-->
@@ -55,8 +55,9 @@
                         </div>
                     </div>
                     <div class="sb-sidenav-footer">
-                        <div class="small">Logged in as:</div>
-                        Tarik
+                       <div class="small">Logged in as:</div>
+<div id="sidebar-username">Loading...</div>
+
                     </div>
                 </nav>
             </div>
@@ -70,7 +71,10 @@
                     <section id="comic-details" data-load="comic-details.html"></section>
                     <section id="login" data-load="login.html"></section>
                     <section id="register" data-load="register.html"></section>
-
+                    <section id="studentdeleteme" data-load="studentdeleteme.html"></section>
+                    <section id="library" data-load="library.html"></section>   
+                    <section id="wishlist" data-load="wishlist.html"></section>
+                    <section id="admin-settings" data-load="admin-settings.html"></section>
                 </main>
            
                
@@ -91,7 +95,19 @@
         
         </div>
 
+        <!-- Toastr CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
 
+        <!-- jQuery (required by toastr) -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+        <!-- Toastr JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+        
+        
+         <script src="services/pofile-service.js"></script>
+        <script src="services/comics-service.js"></script>
          <script src="utils/utils.js"></script>
         <script src="utils/rest-client.js"></script>
         <script src="services/user-service.js"></script>

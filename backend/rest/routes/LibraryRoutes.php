@@ -1,4 +1,27 @@
+
 <?php
+
+
+/**
+ * @OA\Get(
+ *     path="/library/user",
+ *     tags={"library"},
+ *     security={{"ApiKey": {}}},
+ *     summary="Get all comics in the current user's library",
+ *     @OA\Response(
+ *         response=200,
+ *         description="List of comic details in the user's library"
+ *     )
+ * )
+ */
+Flight::route('GET /library/user', function () {
+ 
+     Flight::auth_middleware()->authorizeRoles([Roles::USER, Roles::ADMIN]);
+    $user = Flight::get('user'); // Assumes user is authenticated
+    $user_id = $user->id;  
+    Flight::json(Flight::libraryService()->getUserLibraryComics($user_id));
+    
+});
 
 /**
  * @OA\Get(
@@ -13,7 +36,7 @@
  * )
  */
 Flight::route('GET /library', function(){
-   Flight::auth_middleware()->authorizeRoles([Roles::USER]);
+   Flight::auth_middleware()->authorizeRoles([Roles::USER , Roles::ADMIN]);
    
    Flight::json(Flight::libraryService()->getAll());
 });
@@ -37,8 +60,8 @@ Flight::route('GET /library', function(){
  *     )
  * )
  */
-Flight::route('GET /library/@id', function($id){ 
-      Flight::auth_middleware()->authorizeRoles([Roles::USER]);
+     Flight::route('GET /library/@id', function($id){ 
+      Flight::auth_middleware()->authorizeRoles([Roles::USER, Roles::ADMIN]);
 
    Flight::json(Flight::libraryService()->getById($id));
 });
@@ -63,9 +86,9 @@ Flight::route('GET /library/@id', function($id){
  * )
  */
 Flight::route('POST /library/@id', function($id) {
-      Flight::auth_middleware()->authorizeRoles([Roles::USER]);
-
-   $user_id = 1;
+      Flight::auth_middleware()->authorizeRoles([Roles::USER, Roles::ADMIN]);
+$user = Flight::get('user'); // Assumes user is authenticated
+    $user_id = $user->id; 
    $result = Flight::libraryService()->add_comic_to_library_by_id($id, $user_id);
    Flight::json($result);  
 });
@@ -90,9 +113,9 @@ Flight::route('POST /library/@id', function($id) {
  * )
  */
 Flight::route('DELETE /library/@id', function($id) {
-      Flight::auth_middleware()->authorizeRoles([Roles::USER]);
-
-   $user_id = 1;
+      Flight::auth_middleware()->authorizeRoles([Roles::USER, Roles::ADMIN]);
+$user = Flight::get('user'); // Assumes user is authenticated
+    $user_id = $user->id; 
    $result = Flight::libraryService()->remove_comic_from_library($id, $user_id);
 
    if ($result) {
@@ -101,3 +124,7 @@ Flight::route('DELETE /library/@id', function($id) {
        Flight::json(['status' => 'error', 'message' => 'Comic not found in library']);
    }
 });
+
+
+
+

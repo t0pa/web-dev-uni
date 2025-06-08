@@ -18,6 +18,16 @@ class LibraryDao extends BaseDao {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getUserLibraryComics($user_id) {
+    $stmt = $this->connection->prepare("
+        SELECT comics.*
+        FROM library
+        JOIN comics ON library.comic_id = comics.id
+        WHERE library.user_id = :user_id
+    ");
+    $stmt->execute(['user_id' => $user_id]);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 
 
     public function getByComicIdAndUserId($comicId, $userId) {
