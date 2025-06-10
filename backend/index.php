@@ -1,22 +1,23 @@
 <?php
+// At the VERY top - no whitespace, no BOM, nothing before this
+error_log('Register endpoint reached');
 
-// Allow CORS
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    header("Access-Control-Allow-Origin: https://comicfront-app-dul8l.ondigitalocean.app");
-    header("Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS");
-    header("Access-Control-Allow-Headers: Content-Type, Authorization, Authentication");
-    header("Access-Control-Allow-Credentials: true");
-    http_response_code(200);
-    exit();
-}
+// Immediately set output buffering to prevent header issues
+ob_start();
 
-// CORS headers for all other requests
+// Set CORS headers that will apply to ALL responses including errors
 header("Access-Control-Allow-Origin: https://comicfront-app-dul8l.ondigitalocean.app");
 header("Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization, Authentication");
 header("Access-Control-Allow-Credentials: true");
+header("Vary: Origin");  // Important for caching
 
-
+// Handle OPTIONS requests immediately
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    ob_end_flush();
+    exit();
+}
 require 'vendor/autoload.php';
 //require_once __DIR__ . '/rest/services/LibraryService.php';
 require_once 'rest/services/LibraryService.php';
@@ -30,6 +31,20 @@ require_once  'data/Roles.php';
 
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
+
+
+// Register error handler to ensure CORS headers on errors
+Flight::map('error', function(Throwable $error) {
+    // Ensure headers are still set
+    header("Access-Control-Allow-Origin: https://comicfront-app-dul8l.ondigitalocean.app");
+    header("Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS");
+    header("Access-Control-Allow-Headers: Content-Type, Authorization, Authentication");
+    header("Access-Control-Allow-Credentials: true");
+    
+    error_log('Error: ' . $error->getMessage());
+    Flight::halt(500, json_encode(['error' => 'Internal Server Error']));
+});
+
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
