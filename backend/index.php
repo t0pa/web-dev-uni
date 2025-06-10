@@ -1,5 +1,20 @@
 <?php
 
+// Allow CORS
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    header("Access-Control-Allow-Origin: https://comicfront-app-dul8l.ondigitalocean.app");
+    header("Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS");
+    header("Access-Control-Allow-Headers: Content-Type, Authorization, Authentication");
+    header("Access-Control-Allow-Credentials: true");
+    http_response_code(200);
+    exit();
+}
+
+// CORS headers for all other requests
+header("Access-Control-Allow-Origin: https://comicfront-app-dul8l.ondigitalocean.app");
+header("Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization, Authentication");
+header("Access-Control-Allow-Credentials: true");
 
 
 require 'vendor/autoload.php';
@@ -67,17 +82,6 @@ require_once __DIR__ . '/rest/routes/ComicsRoutes.php';
 
 
 
-// Allow CORS
-header("Access-Control-Allow-Origin: *"); // You can restrict this to your frontend URL if needed
-header("Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type, Authorization, Authentication");
-header("Access-Control-Allow-Credentials: true");
-
-// Handle preflight requests
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(200);
-    exit();
-}
 
 //require_once  "rest/routes/LibraryRoutes.php";
 Flight::start();  //start FlightPHP
