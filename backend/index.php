@@ -27,7 +27,7 @@ require_once 'rest/services/WishlistService.php';
 require_once 'rest/services/ReviewsService.php';
 require_once 'rest/services/AuthService.php';
 require_once "middleware/AuthMiddleware.php";
-require_once  'data/Roles.php'; 
+require_once  'data/roles.php'; 
 
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
