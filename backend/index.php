@@ -67,24 +67,17 @@ require_once __DIR__ . '/rest/routes/ComicsRoutes.php';
 
 
 
-$allowedOrigins = [
-    "http://localhost",
-    "https://comicfront-app-dul8l.ondigitalocean.app"
-];
+// Allow CORS
+header("Access-Control-Allow-Origin: *"); // You can restrict this to your frontend URL if needed
+header("Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization, Authentication");
+header("Access-Control-Allow-Credentials: true");
 
-if (isset($_SERVER['HTTP_ORIGIN']) && in_array($_SERVER['HTTP_ORIGIN'], $allowedOrigins)) {
-    header("Access-Control-Allow-Origin: " . $_SERVER['HTTP_ORIGIN']);
-    header("Access-Control-Allow-Credentials: true");  // only if needed
-}
-
-header("Access-Control-Allow-Methods: GET, POST, PATCH, DELETE, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type, Authentication");
-
-if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-    http_response_code(204);
+// Handle preflight requests
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
     exit();
 }
-
 
 //require_once  "rest/routes/LibraryRoutes.php";
 Flight::start();  //start FlightPHP
