@@ -3,7 +3,10 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+require __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/routes/config.php';  // MOVED THIS UP
 
+// 
 // Immediate connection test - place right after error reporting
 error_log("=== STARTING DEBUG ===");
 error_log("Attempting DB connection to: ".Config::DB_HOST().":".Config::DB_PORT());
@@ -27,7 +30,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     ob_end_flush();
     exit();
 }
-require 'vendor/autoload.php';
 //require_once __DIR__ . '/rest/services/LibraryService.php';
 require_once 'rest/services/LibraryService.php';
 require_once 'rest/services/ComicsService.php';
