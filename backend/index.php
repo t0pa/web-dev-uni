@@ -1,4 +1,13 @@
 <?php
+// Absolute first thing in the file - error reporting and connection debug
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+// Immediate connection test - place right after error reporting
+error_log("=== STARTING DEBUG ===");
+error_log("Attempting DB connection to: ".Config::DB_HOST().":".Config::DB_PORT());
+error_log("With user: ".Config::DB_USER());
 // At the VERY top - no whitespace, no BOM, nothing before this
 error_log('Register endpoint reached');
 
@@ -96,7 +105,43 @@ require_once __DIR__ . '/rest/routes/LibraryRoutes.php';
 require_once __DIR__ . '/rest/routes/ComicsRoutes.php';
 
 
+// Database connection test endpoint - add this just before Flight::start()
+Flight::route('/debug/db', function() {
+    try {
+        $dsn = "mysql:host=".Config::DB_HOST().";port=".Config::DB_PORT().";dbname=".Config::DB_NAME();
+        $options = [
+            PDO::MYSQL_ATTR_SSL_CA => __DIR__.'/ca-certificate.crt', // Remove if not using SSL
+            PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false,
+        ];
+        
+        error_log("Full DSN: ".$dsn);
+        $pdo = new PDO($dsn, Config::DB_USER(), Config::DB_PASSWORD(), $options);
+        Flight::json(['success' => true, 'message' => 'DB Connection successful!']);
+    } catch (PDOException $e) {
+        error_log("DB Connection FAILED: ".$e->getMessage());
+        Flight::halt(500, json_encode([
+            'error' => 'DB Connection failed',
+            'message' => $e->getMessage(),
+            'details' => [
+                'host' => Config::DB_HOST(),
+                'port' => Config::DB_PORT(),
+                'user' => Config::DB_USER(),
+                'dbname' => Config::DB_NAME()
+            ]
+        ]));
+    }
+});
 
+// Add this right after your existing routes
+Flight::route('GET /debug/routes', function() {
+    $routes = Flight::router()->getRoutes();
+    Flight::json(array_map(function($route) {
+        return [
+            'pattern' => $route->pattern,
+            'methods' => $route->methods
+        ];
+    }, $routes));
+});
 
 //require_once  "rest/routes/LibraryRoutes.php";
 Flight::start();  //start FlightPHP
