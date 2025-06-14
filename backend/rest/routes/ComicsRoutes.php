@@ -13,7 +13,6 @@
  * )
  */
 Flight::route('GET /comics', function(){
-   Flight::auth_middleware()->authorizeRoles([Roles::ADMIN, Roles::USER]);
    Flight::json(Flight::comicsService()->getAll());
 });
 
