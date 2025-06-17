@@ -15,9 +15,18 @@
 /**
  * @OA\Server(
  *      url="http://localhost/TarikTopic/web-dev-uni/backend/",
- *      description="API server"
+ *     description="Local dev server"
  * )
 */
+
+/**
+ * @OA\Server(
+ *      url="https://comic-app-jhrcg.ondigitalocean.app/",
+ *     description="Production server"
+ * )
+*/
+
+
 
 
 
