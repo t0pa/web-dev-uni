@@ -5,6 +5,7 @@ require_once __DIR__ .'/../dao/WishlistDao.php';
 
 class WishlistService extends BaseService {
 
+    private ComicsService $comicsService; 
    public function __construct() {
        $dao = new WishlistDao();
        parent::__construct($dao);
