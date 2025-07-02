@@ -1,0 +1,131 @@
+<div class="container mt-3">
+  <!-- Button trigger modal -->
+  <div>
+    <button
+      type="button"
+      class="btn btn-primary"
+      data-bs-toggle="modal"
+      data-bs-target="#add-customer-modal"
+    >
+      Add Customer
+    </button>
+  </div>
+  <br />
+  <select class="form-select" id="customers-list">
+    <option selected>Please select one customer</option>
+    <option value="1">Becir Isakovic</option>
+    <option value="2">Dzelila Mehanovic</option>
+    <option value="3">Amela Vatres</option>
+  </select>
+  <hr />
+  <div>
+    <table class="table table-striped" id="customer-meals">
+      <thead>
+        <tr>
+          <th>Food name</th>
+          <th>Food brand</th>
+          <th>Meal date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Meet fingers</td>
+          <td>Ilidzanka</td>
+          <td>2024-05-28</td>
+        </tr>
+        <tr>
+          <td>Beef</td>
+          <td>AEMS</td>
+          <td>2024-05-29</td>
+        </tr>
+        <tr>
+          <td>Corba</td>
+          <td>Domaca</td>
+          <td>2024-05-30</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="add-customer-modal"
+  tabindex="-1"
+  aria-labelledby="add-customer-label"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form action="#">
+        <div class="modal-header">
+          <h5 class="modal-title" id="add-customer-label">Add Customer</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3 mt-3">
+            <label for="first_name">First name:</label>
+            <input
+              type="text"
+              class="form-control"
+              id="first_name"
+              placeholder="Enter first name"
+              name="first_name"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="pwd">Last name:</label>
+            <input
+              type="text"
+              class="form-control"
+              id="last_name"
+              placeholder="Enter last name"
+              name="last_name"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="birth_date">Birth date:</label>
+            <input
+              type="date"
+              class="form-control"
+              id="birth_date"
+              placeholder="Enter birth date"
+              name="birth_date"
+            />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
+          <button type="submit" class="btn btn-primary">Save changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<script>
+  CustomersService.populateService();
+  CustomersService.addCustomer();
+  CustomersService.changeMeals();
+  /* 
+    1. Populate the <select> HTML element with the id `customers-list` with all 
+       customers from the database (15 points)
+    2. When the select list item changes (other customer is selected) fetch all 
+       meals for the selected customer and populate the table with the id `customer-meals`
+       with the meals you get from the database (15 points)
+    3. Use the modal with id `add-customer-modal` to add customer to the database. (15 points)
+    3.1. After the customer has been added successfully, refresh the list of customers
+         in the select list with the id `customers-list` (5 points)
+   */
+</script>

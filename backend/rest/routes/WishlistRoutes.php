@@ -14,7 +14,7 @@
  * )
  */
 Flight::route('GET /wishlist/user', function () {
- 
+   
      Flight::auth_middleware()->authorizeRoles([Roles::USER, Roles::ADMIN]);
     $user = Flight::get('user'); // Assumes user is authenticated
     $user_id = $user->id;  
