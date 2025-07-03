@@ -67,5 +67,22 @@ class ExamDao
   /** TODO
    * Implement DAO method used to get foods report
    */
-  public function get_foods_report() {}
+  public function get_foods_report() {
+    /* SELECT 
+    f.name,
+    f.brand,
+    f.image_url AS image,
+    SUM(CASE WHEN n.name = 'energy' THEN fn.quantity ELSE 0 END) AS energy,
+    SUM(CASE WHEN n.name = 'protein' THEN fn.quantity ELSE 0 END) AS protein,
+    SUM(CASE WHEN n.name = 'fat' THEN fn.quantity ELSE 0 END) AS fat,
+    SUM(CASE WHEN n.name = 'fiber' THEN fn.quantity ELSE 0 END) AS fiber,
+	SUM(case when n.name = 'carbs' then fn.quantity else 0 end) as carbs
+FROM foods f
+LEFT JOIN food_nutrients fn ON f.id = fn.food_id
+LEFT JOIN nutrients n ON fn.nutrient_id = n.id
+GROUP BY f.id, f.name, f.brand, f.image_url
+ORDER BY f.name
+LIMIT 100 OFFSET 0; */
+
+  }
 }

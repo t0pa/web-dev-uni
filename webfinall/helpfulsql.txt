@@ -1,0 +1,36 @@
+select e.employeeNumber ,
+CONCAT(e.firstName,' ',e.lastName) as fullName,
+sum(p.amount) as total 
+from employees e 
+join customers c on e.employeeNumber =c.salesRepEmployeeNumber 
+join payments p on c.customerNumber =p.customerNumber
+group by e.employeeNumber, e.firstName, e.lastName // employee_performace_report classicmodels
+
+
+-------------------------------
+
+/** TODO
+    * This endpoint should return the report for every order in the database.
+    * For every order we need the amount of money spent for the order. In order
+    * to get total money for every order quantityOrdered should be multiplied 
+    * with priceEach from the orderdetails table. The data should be summarized
+    * in order to get accurate report. paginated. Every item returned should 
+    * have following properties:
+    *   `details` -> the html code needed on the frontend. Refer to `orders.html` page
+    *   `order_number` -> orderNumber of the order
+    *   `total_amount` -> aggregated amount of money spent per order
+    * This endpoint should return output in JSON format
+    * 10 points
+    */
+
+
+"
+            SELECT 
+                o.orderNumber AS order_number,
+                SUM(od.quantityOrdered * od.priceEach) AS total_amount
+            FROM orders o
+            JOIN orderdetails od ON o.orderNumber = od.orderNumber
+            GROUP BY o.orderNumber
+            ORDER BY o.orderNumber DESC
+            LIMIT ?, ?
+        "
